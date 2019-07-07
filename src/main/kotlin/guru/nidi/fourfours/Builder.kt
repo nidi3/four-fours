@@ -4,8 +4,8 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class Builder(val digit: Int, val max: Int,val unaryDepth:Int) {
-    val maps = listOf(
+class Builder(digit: Int, val max: Int, val unaryDepth: Int) {
+    private val maps = listOf(
             HashMap<Rational, Node>(),
             HashMap<Rational, Node>(),
             HashMap<Rational, Node>(),
@@ -36,7 +36,7 @@ class Builder(val digit: Int, val max: Int,val unaryDepth:Int) {
                 }
             }
             if (node.fours < 4 || node.value <= max.toDouble()) {
-                val existing = map.get(node.value)
+                val existing = map[node.value]
                 if (existing == null || node.level < existing.level ||
                         (node.level == existing.level && node.size < existing.size)) {
                     map.put(node.value, node)
@@ -80,7 +80,7 @@ class Builder(val digit: Int, val max: Int,val unaryDepth:Int) {
                 try {
                     val part = data.subList(task * piece, if (task == tasks - 1) data.size else (task + 1) * piece)
                     doCombineMaps(local, part, maps[b].values)
-                }catch(e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }

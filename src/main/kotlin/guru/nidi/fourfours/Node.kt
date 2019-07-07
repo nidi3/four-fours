@@ -1,15 +1,16 @@
 package guru.nidi.fourfours
 
+import kotlin.math.max
+
 abstract class Node(val level: Int, val size: Int, val left: Node?, val right: Node?,
-                    val fours: Int, val value: Rational) {
-}
+                    val fours: Int, val value: Rational)
 
 abstract class Binary(level: Int, left: Node, right: Node, value: Rational) :
-        Node(Math.max(Math.max(level, left.level), right.level), left.size + right.size + 1,
+        Node(max(max(level, left.level), right.level), left.size + right.size + 1,
                 left, right, left.fours + right.fours, value)
 
 abstract class Unary(level: Int, left: Node, value: Rational) :
-        Node(Math.max(level, left.level), left.size + 1, left, null, left.fours, value)
+        Node(max(level, left.level), left.size + 1, left, null, left.fours, value)
 
 abstract class Nullary(level: Int, size: Int, fours: Int, value: Rational) :
         Node(level, size, null, null, fours, value)
@@ -183,7 +184,7 @@ class Shl(left: Node, right: Node, value: Rational) : Binary(8, left, right, val
     companion object {
         operator fun invoke(left: Node, right: Node): Shl? {
             return if (!left.value.isNatural() || !right.value.isNatural() || right.value.num > 64) null
-            else Shl(left, right, Rational(left.value.num shl right.value.num.toInt()))
+            else Shl(left, right, Rational(left.value.num shl right.value.num))
         }
     }
 
@@ -194,7 +195,7 @@ class Shr(left: Node, right: Node, value: Rational) : Binary(9, left, right, val
     companion object {
         operator fun invoke(left: Node, right: Node): Shr? {
             return if (!left.value.isNatural() || !right.value.isNatural() || right.value.num > 64) null
-            else Shr(left, right, Rational(left.value.num shr right.value.num.toInt()))
+            else Shr(left, right, Rational(left.value.num shr right.value.num))
         }
     }
 

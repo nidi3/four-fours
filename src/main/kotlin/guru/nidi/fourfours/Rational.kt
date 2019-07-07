@@ -1,5 +1,7 @@
 package guru.nidi.fourfours
 
+import kotlin.math.*
+
 class Rational(n: Int, d: Int) : Comparable<Rational> {
     val num: Int
     val denom: Int
@@ -18,8 +20,8 @@ class Rational(n: Int, d: Int) : Comparable<Rational> {
     constructor(value: Int) : this(value, 1)
 
     private fun gcd(a: Int, b: Int): Int {
-        var n = Math.abs(a)
-        var m = Math.abs(b)
+        var n = abs(a)
+        var m = abs(b)
         while (m != 0) {
             val t = m
             m = n % m
@@ -59,7 +61,7 @@ class Rational(n: Int, d: Int) : Comparable<Rational> {
         return if (v > n) 1 else if (v < n) -1 else 0
     }
 
-    private fun multiplyExact(x: Int, y: Int): Int ? {
+    private fun multiplyExact(x: Int, y: Int): Int? {
         val r = x.toLong() * y.toLong()
         if (r.toInt().toLong() != r) {
             return null
@@ -74,13 +76,13 @@ class Rational(n: Int, d: Int) : Comparable<Rational> {
     fun isZero() = num == 0
 
     fun pow(r: Rational): Rational? {
-        val n = toInt(Math.pow(num.toDouble(), r.toDouble()))
-        val d = toInt(Math.pow(denom.toDouble(), r.toDouble()))
-        return if (n == null || n === 0 || d == null || d == 0) null else Rational(n, d)
+        val n = toInt(num.toDouble().pow(r.toDouble()))
+        val d = toInt(denom.toDouble().pow(r.toDouble()))
+        return if (n == null || n == 0 || d == null || d == 0) null else Rational(n, d)
     }
 
-    private fun isInt(d: Double) = Math.abs(d) < Int.MAX_VALUE && Math.abs(d % 1) < .000001
-    private fun toInt(d: Double): Int? = if (isInt(d)) Math.round(d).toInt() else null
+    private fun isInt(d: Double) = abs(d) < Int.MAX_VALUE && abs(d % 1) < .000001
+    private fun toInt(d: Double): Int? = if (isInt(d)) d.roundToInt() else null
 
     fun fac(): Rational {
         if (!isNatural()) {
@@ -95,7 +97,7 @@ class Rational(n: Int, d: Int) : Comparable<Rational> {
         return Rational(s)
     }
 
-    fun isNatural(): Boolean = denom == 1
+    fun isNatural() = denom == 1
 
     override fun compareTo(other: Rational): Int {
         return toDouble().compareTo(other.toDouble())
@@ -110,7 +112,5 @@ class Rational(n: Int, d: Int) : Comparable<Rational> {
         return num == other.num && denom == other.denom
     }
 
-    override fun hashCode(): Int {
-        return (num + 31 * denom).toInt()
-    }
+    override fun hashCode() = num + 31 * denom
 }

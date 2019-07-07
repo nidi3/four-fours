@@ -3,7 +3,7 @@ package guru.nidi.fourfours
 import java.io.File
 import kotlin.system.measureTimeMillis
 
-fun main(args: Array<String>) {
+fun main() {
     for (depth in 1..4) {
         for (digit in 1..9) {
             run(digit, depth)
@@ -21,14 +21,14 @@ fun run(digit: Int, depth: Int) {
             val miss = mutableListOf<Int>()
             val levels = mutableMapOf<Int, Int>()
             for (i in 0..40000) {
-                val tree = res.get(Rational(i))
+                val tree = res[Rational(i)]
                 if (tree == null) {
                     miss.add(i)
                 } else {
                     out.println("$i: $tree")
                     if (tree.level > level) {
                         level = tree.level
-                        levels.put(i, level)
+                        levels[i] = level
                     }
                 }
             }
